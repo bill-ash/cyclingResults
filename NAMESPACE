@@ -3,4 +3,5 @@
 export("%>%")
 export(get_races)
 export(raw_results)
+export(usa_permits)
 importFrom(magrittr,"%>%")

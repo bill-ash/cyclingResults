@@ -54,3 +54,17 @@ raw_results <- function() {
                       package = 'cyclingResults', mustWork = TRUE)))
 
 }
+
+
+#' Load USA cycling permits
+#'
+#' Load usa cycling permits from the events by state page.
+#'
+#' @return Returns a tibble of permits
+#' @export
+usa_permits <- function() {
+
+  dplyr::as_tibble(readRDS(system.file('usa-cycling', 'race-permits.Rds',
+                      package = 'cyclingResults', mustWork = TRUE)))
+
+}

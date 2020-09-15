@@ -21,15 +21,14 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of cyclingResults is to query some cycling results. 
+Analyze cycling results from [road results](https://road-results.com) and [USA cycling](https://usacycling.org/). 
 
 ## Installation
 
-```{r install, eval=TRUE, echo=FALSE}
+```{r install, eval=FALSE, echo=TRUE}
 remotes::install_github('bill-ash/cyclingResults')
 library(cyclingResults)
 ```
-
 
 ## Example 
 
@@ -55,14 +54,12 @@ road_results %>%
        x = 'Year', y = 'Total rider participation') + 
   facet_wrap(~region, ) + 
   theme(legend.position = 'none')
-
 ```
 
 
-
-Explore rider retention over time. Load all race results from 2006 to 2020. 
+Explore rider retention over time. Load all race results from 2008 to 2020. 
 `raw_results()` loads a .Rds file of all rider results scraped from 
-[road results](road-resuls.com).
+[road results](https://road-results.com).
 
 ```{r cohort-plot, echo=TRUE}
 library(cyclingResults)
@@ -91,12 +88,37 @@ races_raw %>%
   ggplot(aes(date, total, color = cohort)) + 
   geom_line() + 
   scale_y_continuous(labels = scales::comma_format()) + 
-  labs(title = 'Rider participation falls over time.', 
+  labs(title = 'Rider retention in free fall since 2013.',
        x = 'Year', y = 'Rider participation by "start year"',
        caption = 'Source: https://road-results.com') + 
   facet_wrap(~cohort) + 
   theme(legend.position = 'none')
   
+```
+
+Analyze permit data from USA cycling with `usa_permits()`.
+
+```{r}
+library(cyclingResults)
+library(dplyr)
+library(ggplot2)
+
+usa_cycling_permits <- cyclingResults::usa_permits() 
+
+usa_cycling_permits %>% 
+  group_by(year = as.factor(lubridate::year(race_date)), .drop = FALSE) %>% 
+  summarise(total = n()) %>% 
+  ggplot(aes(year, total)) + 
+  geom_col() + 
+  scale_y_continuous(labels = scales::comma_format()) +
+  coord_flip() + 
+  labs(title = 'USA cycling events with reported results by year.',
+       subtitle = 'All disciplines',
+       caption = 'Source: https://usacycling.org',
+       x = '', y = 'Count of events')
 
 ```
 
+
+
+This package is still in development.
