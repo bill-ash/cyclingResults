@@ -11,11 +11,6 @@ The goal of cyclingResults is to query some cycling results.
 
 ## Installation
 
-``` r
-#remotes::install_github('bill-ash/cyclingResults')
-library(cyclingResults)
-```
-
 ## Example
 
 Compare rider participation by region over time.

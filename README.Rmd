@@ -25,8 +25,8 @@ The goal of cyclingResults is to query some cycling results.
 
 ## Installation
 
-```{r}
-#remotes::install_github('bill-ash/cyclingResults')
+```{r install, eval=TRUE, echo=FALSE}
+remotes::install_github('bill-ash/cyclingResults')
 library(cyclingResults)
 ```
 
