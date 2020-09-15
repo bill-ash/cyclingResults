@@ -1,5 +1,3 @@
-
-
 #' Get all races
 #'
 #' Returns a tibble of all race results from \url{road-results.com}.
@@ -7,7 +5,11 @@
 #' @return Returns a tibble of race results
 #' @export
 #'
-#' @examples get_races()
+#' @examples \dontrun{
+#'
+#'  get_races()
+#'
+#'  }
 get_races <- function() {
 
   all_races <- 'https://www.road-results.com/?n=results&sn=all'
@@ -27,7 +29,7 @@ get_races <- function() {
     dplyr::filter(!is.na(`Race Name`)) %>%
     dplyr::mutate(Date = as.Date.character(Date, '%b %d %Y'),
                   race_id = race_ids
-                  ) %>%
+    ) %>%
     dplyr::select(race_name = `Race Name`,
                   race_id,
                   date = Date,
@@ -36,5 +38,19 @@ get_races <- function() {
     dplyr::as_tibble()
 
   return(race_table)
+
+}
+
+
+#' Load raw results
+#'
+#' Load raw results from all events
+#'
+#' @return Returns a tibble of race results
+#' @export
+raw_results <- function() {
+
+  dplyr::as_tibble(readRDS(system.file('road-results', 'all-races.Rds',
+                      package = 'cyclingResults', mustWork = TRUE)))
 
 }

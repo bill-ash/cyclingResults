@@ -2,4 +2,5 @@
 
 export("%>%")
 export(get_races)
+export(raw_results)
 importFrom(magrittr,"%>%")

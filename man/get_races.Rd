@@ -13,5 +13,9 @@ Returns a tibble of race results
 Returns a tibble of all race results from \url{road-results.com}.
 }
 \examples{
-get_races()
+\dontrun{
+
+ get_races()
+
+ }
 }

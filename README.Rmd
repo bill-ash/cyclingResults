@@ -32,7 +32,7 @@ library(cyclingResults)
 
 Compare rider participation by region over time. 
 
-```{r road_results plot}
+```{r region_plot, echo=TRUE}
 library(ggplot2)
 library(dplyr)
 
@@ -51,6 +51,47 @@ road_results %>%
        caption = 'Source: https://road-results.com',
        x = 'Year', y = 'Total rider participation') + 
   facet_wrap(~region, ) + 
+  theme(legend.position = 'none')
+
+```
+
+
+
+Explore rider retention over time. Load all race results from 2006 to 2020. 
+`raw_results()` loads a .Rds file of all rider results scraped from 
+[road results](road-resuls.com).
+
+```{r cohort-plot, echo=TRUE}
+library(cyclingResults)
+library(tidyverse)
+
+races_raw <- raw_results() %>% 
+  mutate(license = readr::parse_number(license)) %>% 
+  filter(!is.na(license), 
+         nchar(license) > 4 & nchar(license) < 7,
+         !license %in% c(91005, 999999))
+
+races_raw %>%
+  select(license, date) %>% 
+  group_by(license, date = lubridate::floor_date(date, 'year')) %>% 
+  count(date, license, sort = TRUE) %>% 
+  ungroup() %>% 
+  group_by(license) %>%
+  # cohort is defined as the earliest date a license appears in the data
+  mutate(cohort = min(date)) %>% 
+  ungroup() %>% 
+  group_by(cohort, date) %>% 
+  # total participation by cohort, by year
+  summarise(total = sum(n), 
+            cohort = as.factor(lubridate::year(cohort))) %>% 
+  filter(cohort != 2020) %>% 
+  ggplot(aes(date, total, color = cohort)) + 
+  geom_line() + 
+  scale_y_continuous(labels = scales::comma_format()) + 
+  labs(title = 'Rider participation falls over time', 
+       x = 'Year', y = 'Rider participation by "start year"',
+       caption = 'Source: https://road-results.com') + 
+  facet_wrap(~cohort) + 
   theme(legend.position = 'none')
   
 

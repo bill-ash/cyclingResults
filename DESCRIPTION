@@ -18,6 +18,7 @@ Imports:
     dplyr,
     httr,
     rvest,
-    magrittr
+    magrittr,
+    xml2
 Suggests: 
     testthat
