@@ -17,7 +17,8 @@ testthat::test_that('How to query USA cycling results...', {
   for (state in state.abb) {
     for (year in 2020:2005) {
       print(sprintf(base_url, state, year))
-      url_resp <- xml2::read_html(sprintf(base_url, 'AL', 2020))
+
+      url_resp <- xml2::read_html(sprintf(base_url, state, year))
 
       # appear to use the permit id as the guid for results query
       permit_id <- url_resp %>%
@@ -44,4 +45,4 @@ testthat::test_that('How to query USA cycling results...', {
   }
 
 
-  })
+})

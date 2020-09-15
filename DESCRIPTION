@@ -1,5 +1,5 @@
 Package: cyclingResults
-Title: What the Package Does (One Line, Title Case)
+Title: Analyze USA Cycling Results 
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Bill",
@@ -7,7 +7,8 @@ Authors@R:
            role = c("aut", "cre"),
            email = "ash.william.r@gmail.com"
            )
-Description: Gather USA cycling results. 
+Description: Gather USA cycling results from https://road-results.com and 
+    https://usacycling.org.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

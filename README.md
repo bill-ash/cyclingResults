@@ -109,4 +109,32 @@ usa_cycling_permits %>%
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
+Make a map of permits with reported results by state. Each observation
+represents a permit that can have more than one event.
+
+``` r
+library(ggmap)
+library(maps)
+library(tidyverse)
+library(cyclingResults)
+
+states_map <- map_data('state')
+
+cyclingResults::usa_permits() %>% 
+  group_by(state) %>%
+  summarise(total = n()) %>% 
+  inner_join(setNames(bind_cols(tolower(state.name), state.abb),
+                      c('region', 'state'))
+             ) %>%  
+  ggplot(aes(map_id = region)) + 
+  geom_map(aes(fill = total), map = states_map) + 
+  expand_limits(x = states_map$long, y = states_map$lat) + 
+  labs(title = 'Count of permits with results by state.', 
+       subtitle = 'Events from 2005- 2020 all disciplines',
+       caption = 'Source: https://usacycling.org') + 
+  theme_void()
+```
+
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
 This package is still in development.
