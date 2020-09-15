@@ -21,16 +21,8 @@ library(cyclingResults)
 Compare rider participation by region over time.
 
 ``` r
-library(ggplot2)
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
+library(ggplot2)
 
 road_results <- cyclingResults::get_races() 
 
@@ -48,7 +40,6 @@ road_results %>%
        x = 'Year', y = 'Total rider participation') + 
   facet_wrap(~region, ) + 
   theme(legend.position = 'none')
-#> `summarise()` regrouping output by 'date' (override with `.groups` argument)
 ```
 
 <img src="man/figures/README-region_plot-1.png" width="100%" />
@@ -60,40 +51,12 @@ from [road results](road-resuls.com).
 ``` r
 library(cyclingResults)
 library(tidyverse)
-#> ── Attaching packages ──────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
-#> ✓ tibble  3.0.3     ✓ purrr   0.3.4
-#> ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-#> ✓ readr   1.3.1     ✓ forcats 0.5.0
-#> ── Conflicts ─────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-#> x dplyr::filter() masks stats::filter()
-#> x dplyr::lag()    masks stats::lag()
 
 races_raw <- raw_results() %>% 
   mutate(license = readr::parse_number(license)) %>% 
   filter(!is.na(license), 
          nchar(license) > 4 & nchar(license) < 7,
          !license %in% c(91005, 999999))
-#> Warning: Problem with `mutate()` input `license`.
-#> ℹ 6579 parsing failures.
-#> row col expected  actual
-#> 229  -- a number ONE DAY
-#> 230  -- a number ONE DAY
-#> 231  -- a number ONE DAY
-#> 232  -- a number ONE DAY
-#> 234  -- a number ONE DAY
-#> ... ... ........ .......
-#> See problems(...) for more details.
-#> 
-#> ℹ Input `license` is `readr::parse_number(license)`.
-#> Warning: 6579 parsing failures.
-#> row col expected  actual
-#> 229  -- a number ONE DAY
-#> 230  -- a number ONE DAY
-#> 231  -- a number ONE DAY
-#> 232  -- a number ONE DAY
-#> 234  -- a number ONE DAY
-#> ... ... ........ .......
-#> See problems(...) for more details.
 
 races_raw %>%
   select(license, date) %>% 
@@ -112,12 +75,11 @@ races_raw %>%
   ggplot(aes(date, total, color = cohort)) + 
   geom_line() + 
   scale_y_continuous(labels = scales::comma_format()) + 
-  labs(title = 'Rider participation falls over time', 
+  labs(title = 'Rider participation falls over time.', 
        x = 'Year', y = 'Rider participation by "start year"',
        caption = 'Source: https://road-results.com') + 
   facet_wrap(~cohort) + 
   theme(legend.position = 'none')
-#> `summarise()` regrouping output by 'cohort', 'date' (override with `.groups` argument)
 ```
 
 <img src="man/figures/README-cohort-plot-1.png" width="100%" />

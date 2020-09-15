@@ -9,7 +9,10 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%", 
+  warning = FALSE, 
+  message = FALSE, 
+  cache = TRUE
 )
 ```
 
@@ -33,8 +36,8 @@ library(cyclingResults)
 Compare rider participation by region over time. 
 
 ```{r region_plot, echo=TRUE}
-library(ggplot2)
 library(dplyr)
+library(ggplot2)
 
 road_results <- cyclingResults::get_races() 
 
@@ -88,7 +91,7 @@ races_raw %>%
   ggplot(aes(date, total, color = cohort)) + 
   geom_line() + 
   scale_y_continuous(labels = scales::comma_format()) + 
-  labs(title = 'Rider participation falls over time', 
+  labs(title = 'Rider participation falls over time.', 
        x = 'Year', y = 'Rider participation by "start year"',
        caption = 'Source: https://road-results.com') + 
   facet_wrap(~cohort) + 
